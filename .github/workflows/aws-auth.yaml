@@ -1,0 +1,25 @@
+name: aws role auth
+on:
+  workflow_dispatch:
+env:
+  AWS_REGION : "us-east-1"
+permissions:
+      id-token: write   # This is required for requesting the JWT
+      contents: read    # This is required for actions/checkout
+jobs:
+  my_job:
+    name: deploy to staging
+    runs-on: self-hosted
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v3
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::430118834478:role/gh-actions-role
+          aws-region: ${{ env.AWS_REGION }}
+      - name: aws cli 
+        run: |
+          aws sts get-caller-identity
+          echo ------------printing all s3 buckets--------
+          aws s3 ls
