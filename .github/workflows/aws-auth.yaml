@@ -9,7 +9,7 @@ permissions:
 jobs:
   my_job:
     name: deploy to staging
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Git clone the repository
         uses: actions/checkout@v3
